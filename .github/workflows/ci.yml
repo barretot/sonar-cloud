@@ -4,7 +4,7 @@ on:
     branches:
       - develop
 
-jobs: 
+jobs:
   run-ci:
     runs-on: ubuntu-latest
     steps:
@@ -12,10 +12,19 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Node
-        uses: actions/setup-node@v4 
+        uses: actions/setup-node@v4
         with:
           node-version: 18
-      - run: npm install
-      - run: npm test
 
-      
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run project tests
+        run: npm test
+
+      - name: Upload Code Coverage
+        id: report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage/lcov.info
